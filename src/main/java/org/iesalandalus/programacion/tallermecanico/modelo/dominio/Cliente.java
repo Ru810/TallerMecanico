@@ -2,12 +2,13 @@ package org.iesalandalus.programacion.tallermecanico.modelo.dominio;
 import java.util.Objects;
 
 public class Cliente {
-    private static final String ER_NOMBRE = "^(?u)[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
+    private static final String ER_NOMBRE = "^(?:)[A-ZÁÉÍÓÚÑ][a-záéíóúñ]+(?: [A-ZÁÉÍÓÚÑ][a-záéíóúñ]+)*$";
     private static String ER_DNI = "\\d{8}[A-Z]";
     private static String ER_TELEFONO = "\\d{9}";
     private String nombre;
     private String dni;
     private String telefono;
+
     public Cliente(String nombre, String dni, String telefono) {
         setNombre(nombre);
         setDni(dni);
@@ -22,6 +23,7 @@ public class Cliente {
     public String getNombre() {
         return nombre;
     }
+
     public void setNombre(String nombre) {
         Objects.requireNonNull(nombre, "El nombre no puede ser nulo.");
         if (!nombre.matches(ER_NOMBRE)) {
@@ -29,9 +31,11 @@ public class Cliente {
         }
         this.nombre = nombre;
     }
+
     public String getDni() {
         return dni;
     }
+
     private void setDni(String dni) {
         Objects.requireNonNull(dni, "El DNI no puede ser nulo.");
         if (!dni.matches(ER_DNI)) {
@@ -59,17 +63,9 @@ public class Cliente {
         this.telefono = telefono;
     }
     public static Cliente get(String dni) {
-        Objects.requireNonNull(dni, "El DNI no puede ser nulo.");
-        if (!dni.matches(ER_DNI)) {
-            throw new IllegalArgumentException("El DNI no tiene un formato válido.");
-        }
-        String letrasDni = "TRWAGMYFPDXBNJZSQVHLCKE";
-        int numero = Integer.parseInt(dni.substring(0, 8));
-        char letraCalculada = letrasDni.charAt(numero % 23);
-        if (dni.charAt(8) != letraCalculada) {
-            throw new IllegalArgumentException("La letra del DNI no es correcta.");
-        }
-        return new Cliente("", dni, "");
+        Cliente cliente = new Cliente("Nombre Temporal", dni, "600000000");
+        cliente.setDni(dni);
+            return cliente;
     }
     @Override
     public boolean equals(Object o) {
